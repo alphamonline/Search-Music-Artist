@@ -1,5 +1,5 @@
 <template>
-  <PageComponent title="Artists">
+  <PageComponent title="Favorites">
     Content goes here
   </PageComponent>
 </template>
