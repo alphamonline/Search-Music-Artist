@@ -8,6 +8,7 @@ import Register from "../views/auth/Register.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import store from "../store/index.js";
+import Favorites from "../views/dashboard/Favorites.vue";
 
 const routes = [
   {
@@ -20,6 +21,7 @@ const routes = [
       {path: '/artists', name: 'Artists', component: Artists},
       {path: '/albums', name: 'Albums', component: Albums},
       {path: '/songs', name: 'Songs', component: Songs},
+      {path: '/favorites', name: 'Favorites', component: Favorites},
     ]
   },
   {
