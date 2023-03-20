@@ -4,30 +4,26 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
     /**
-     * This creates a new user record and initiates email verification
-     *
-     * @param Request $request
-     *
-     * @return mixed
-     *
-     * @throws ValidationException
+     * Display the specified user.
      */
-    public function store(Request $request)
+    public function show(int $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        try {
+            $user = User::findOrFail($id);
 
-        // TODO: Initiate verification process
+            return response()->json([
+                'user' => $user,
+            ], 200);
 
-        return $this->response( User::create($request->all()), 'User created successfully!' );
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong trying to show this user record!',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
     }
 }
