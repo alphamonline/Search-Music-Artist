@@ -9,8 +9,8 @@ class SocialAuthController extends Controller
 {
     public function redirect($provider)
     {
-//        return Socialite::driver($provider)->stateless()->redirect();
-        return Socialite::driver($provider) ->setScopes(['openid', 'email'])->redirect();
+        return Socialite::driver($provider)->stateless()->redirect();
+
     }
 
     public function callback($provider)
