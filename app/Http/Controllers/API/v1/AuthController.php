@@ -19,7 +19,7 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
+                Password::min(8)
             ]
         ]);
 
@@ -29,12 +29,12 @@ class AuthController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password'))
         ]);
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->createToken('Login token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
             'token' => $token
-        ], 200);
+        ]);
     }
 
     public function login(Request $request)
@@ -51,12 +51,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
-            $token = $user->createToken('main')->plainTextToken;
+            $token = $user->createToken('Login token')->plainTextToken;
 
             return response()->json([
                 'user' => $user,
                 'token' => $token
-            ], 200);
+            ]);
         }
 
         return response([

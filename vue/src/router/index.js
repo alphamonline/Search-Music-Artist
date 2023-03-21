@@ -9,6 +9,7 @@ import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import store from "../store/index.js";
 import Favorites from "../views/dashboard/Favorites.vue";
+import Google from "../views/auth/Google.vue";
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
     component: AuthLayout,
     meta: {isGuest: true},
     children: [
+      {path: '/auth/google/callback', name: 'Google', component: Google},
       {path: '/login', name: 'Login', component: Login},
       {path: '/register', name: 'Register', component: Register}
     ]

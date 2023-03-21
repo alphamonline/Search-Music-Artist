@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\SocialAuthController;
 use App\Http\Controllers\API\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
+
+        Route::get('{provider}/redirect', [SocialAuthController::class, 'redirect']);
+        Route::get('{provider}/callback', [SocialAuthController::class, 'callback']);
     });
 
     //Authenticated Routes
