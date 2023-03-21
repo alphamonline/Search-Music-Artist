@@ -8,16 +8,6 @@
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
       Sign in to your account
     </h2>
-    <p class="mt-2 text-center text-sm text-gray-600">
-      Or
-      {{ " " }}
-      <router-link
-        :to="{ name: 'Register' }"
-        class="font-medium text-indigo-600 hover:text-indigo-500"
-      >
-        register for free
-      </router-link>
-    </p>
   </div>
   <form class="mt-8 space-y-6" @submit="login">
     <Alert v-if="errorMsg">
@@ -42,7 +32,7 @@
         </svg>
       </span>
     </Alert>
-    <input type="hidden" name="remember" value="true" />
+    <input type="hidden" name="remember" value="true"/>
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <label for="email-address" class="sr-only">Email address</label>
@@ -126,12 +116,16 @@
         </svg>
         Sign in
       </button>
+    </div>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Or
 
-      <p class="mt-2 text-center text-sm text-gray-600">
-        Or
-      </p>
-      <div class="w-full flex justify-center ml-2">
-        <button type="button" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
+    </p>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <button
+          @click="google"
+          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 focus:ring-offset-2 focus:ring-indigo-500">
           <svg class="w-4 h-4 mr-2 -ml-1"
                aria-hidden="true"
                focusable="false"
@@ -140,22 +134,42 @@
                role="img"
                xmlns="http://www.w3.org/2000/svg"
                viewBox="0 0 488 512">
-            <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+            <path fill="currentColor"
+                  d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
           </svg>
           Sign in with Google
         </button>
+      </div>
+
+      <div class="text-sm">
+        <router-link
+          :to="{ name: 'Register' }"
+        >
+          <button
+            type="submit"
+            class="text-gray-900 bg-white hover:bg-gray-100 border border-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-indigo-700 dark:bg-white dark:border-indigo-700 dark:text-indigo-700 dark:hover:bg-indigo-200 mr-2 mb-2">
+            Register for free
+            <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </router-link>
       </div>
     </div>
   </form>
 </template>
 
 <script>
-import AuthLayout  from "../../components/AuthLayout.vue";
+import AuthLayout from "../../components/AuthLayout.vue";
 import {LockClosedIcon} from "@heroicons/vue/20/solid";
 import {useRouter} from "vue-router";
 import store from "../../store/index.js";
-import { ref } from "vue";
+import {ref} from "vue";
 import Alert from "../../components/Alert.vue";
+import {data} from "autoprefixer";
 
 export default {
   components: {
@@ -173,6 +187,7 @@ export default {
       remember: false
     }
     let errorMsg = ref('');
+
     function login(ev) {
       ev.preventDefault();
       loading.value = true;
@@ -186,16 +201,30 @@ export default {
         })
         .catch((err) => {
           loading.value = false;
-          errorMsg.value = err.response.data.error;
+        });
+    }
+
+    function google(ev) {
+      ev.preventDefault();
+      store
+        .dispatch("google")
+        .then(() => {
+          loading.value = false;
+          router.push({
+            name: "Google",
+          });
+        })
+        .catch((err) => {
+          loading.value = false;
         });
     }
 
     return {
       user,
+      google,
       login,
       errorMsg,
       loading,
-      Alert
     };
   },
 }

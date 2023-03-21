@@ -5,35 +5,35 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Models\SocialAccount;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
     public function redirect($provider)
     {
-        return Socialite::driver($provider)->stateless()->redirect();
+        $url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
 
+        return response()->json([
+            "url" => $url
+        ]);
     }
 
     public function callback($provider)
     {
         $user = Socialite::driver($provider)->stateless()->user();
-        $appUser = User::whereEmail($user->email)->firstOrFail();
 
         if (!$user->token) {
             //return json
             dd('failed');
         }
 
+        $appUser = User::whereEmail($user->email)->first();
+
         if (!$appUser) {
-            //create user account
             /** @var \App\Models\User $user */
             $appUser = User::create([
                 'name' => $user->name,
-                'email' => $user->email,
-                'password' => Hash::make(Str::random(8))
+                'email' => $user->email
             ]);
 
             //create social account
@@ -48,11 +48,11 @@ class SocialAuthController extends Controller
             }
         }
         //login user and create token
-        $token = $appUser->createToken('main')->plainTextToken;
+        $token = $appUser->createToken('Login token')->plainTextToken;
         return response()->json([
-            'user' => $appUser,
+            'user' => $user,
             'token' => $token
-        ], 200);
+        ]);
 
     }
 

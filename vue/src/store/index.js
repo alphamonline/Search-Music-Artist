@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
 import axiosClient from "../axios";
+import {data} from "autoprefixer";
 
 const store = createStore({
   state: {
@@ -10,16 +11,32 @@ const store = createStore({
   },
   getters: {},
   actions: {
-    register({commit}, user) {
-      return axiosClient.post('/register', user)
+    google() {
+      return axiosClient.get('/google/redirect')
+        .then(({data}) => {
+          if (data.url) {
+            window.location.href = data.url
+          }
+        })
+    },
+    googleCallback({commit}, payload) {
+      return axiosClient.get('/google/callback?code=', {params: payload})
         .then(({data}) => {
           commit('setUser', data.user);
           commit('setToken', data.token)
           return data;
         })
     },
-    login({commit}, user) {
-      return axiosClient.post('/login', user)
+    register({commit}, payload) {
+      return axiosClient.post('/register', payload)
+        .then(({data}) => {
+          commit('setUser', data.user);
+          commit('setToken', data.token)
+          return data;
+        })
+    },
+    login({commit}, payload) {
+      return axiosClient.post('/login', payload)
         .then(({data}) => {
           commit('setUser', data.user);
           commit('setToken', data.token)
