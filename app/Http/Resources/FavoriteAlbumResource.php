@@ -16,12 +16,9 @@ class FavoriteAlbumResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var User $user */
-        $user = Auth::user();
-
         return [
             'id' => $this->id,
-            'user_id' => $user->id,
+            'user_id' => $this->user_id,
             'album_name' => $this->album_name,
             'artist_name' => $this->artist_name,
             'image' => $this->image,

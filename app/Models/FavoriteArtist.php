@@ -13,6 +13,9 @@ class FavoriteArtist extends Model
         'user_id',
         'artist_name',
         'image',
+        'mbid',
+        'url',
+        'rank',
     ];
 
     public function user()

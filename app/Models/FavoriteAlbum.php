@@ -12,7 +12,11 @@ class FavoriteAlbum extends Model
     protected $fillable = [
         'user_id',
         'album_name',
+        'artist_name',
         'image',
+        'album_url',
+        'artist_url',
+        'rank',
     ];
 
     public function user()

@@ -60,7 +60,8 @@ const topAlbumsTemp = [
         size: "extralarge"
       }
     ],
-    attr: {rank: "2"
+    attr: {
+      rank: "2"
     }
   },
   {
@@ -206,12 +207,19 @@ const store = createStore({
       data: {},
       token: sessionStorage.getItem("TOKEN"),
     },
+    favAlbum: {
+      data: {},
+    },
+    favArtist: {
+      data: {},
+    },
     topAlbums: [...topAlbumsTemp],
     topTracks: [...topTracksTemp],
     topArtists: [...topArtistsTemp],
   },
   getters: {},
   actions: {
+    // Registration | Login | get User | Logout Actions
     google() {
       return axiosClient.get('/google/redirect')
         .then(({data}) => {
@@ -244,6 +252,13 @@ const store = createStore({
           return data;
         })
     },
+    getUser({commit}) {
+      return axiosClient.get('/user')
+        .then(res => {
+          console.log(res);
+          commit('setUser', res.data)
+        })
+    },
     logout({commit}) {
       return axiosClient.post('/logout')
         .then(response => {
@@ -251,11 +266,20 @@ const store = createStore({
           return response;
         })
     },
-    getUser({commit}) {
-      return axiosClient.get('/user')
-        .then(res => {
-          console.log(res);
-          commit('setUser', res.data)
+
+    //Add to favorites Actions
+    favoriteAlbum({commit}, payload) {
+      return axiosClient.post('/favorite-albums', payload)
+        .then(({data}) => {
+          commit('setFavAlbum', data.favAlbum);
+          return data;
+        })
+    },
+    favoriteArtist({commit}, payload) {
+      return axiosClient.post('/favorite-artists', payload)
+        .then(({data}) => {
+          commit('setFavArtist', data.favArtist);
+          return data;
         })
     },
   },
@@ -265,7 +289,13 @@ const store = createStore({
       state.user.data = {};
       sessionStorage.removeItem("TOKEN");
     },
+    setFavAlbum: (state, favAlbum) => {
+      state.favAlbum.data = favAlbum;
 
+    },
+    setFavArtist: (state, favArtist) => {
+      state.favArtist.data = favArtist;
+    },
     setUser: (state, user) => {
       state.user.data = user;
     },
