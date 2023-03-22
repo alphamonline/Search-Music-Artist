@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\lastfm\HomeController;
 use App\Http\Controllers\API\v1\SocialAuthController;
 use App\Http\Controllers\API\v1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +27,14 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('{provider}/callback', [SocialAuthController::class, 'callback']);
     });
 
+    //Last.fm Get top albums request
+    Route::get('top-albums', [HomeController::class, 'topAlbums']);
+    Route::get('top-artists', [HomeController::class, 'topArtists']);
+    Route::get('top-tracks', [HomeController::class, 'topTracks']);
+
     //Authenticated Routes
     Route::middleware('auth:sanctum')->group(function () {
+
 
         Route::get('user/{id}', [UserController::class, 'show']);
         Route::post('logout', [AuthController::class, 'logout']);
