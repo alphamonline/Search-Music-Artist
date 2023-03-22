@@ -205,7 +205,7 @@ const navigation = [
   {name: 'Home', to: {name: "Home"}},
   {name: 'Artists', to: {name: "Artists"}},
   {name: 'Albums', to: {name: "Albums"}},
-  {name: 'Songs', to: {name: "Songs"}},
+  {name: 'Tracks', to: {name: "Tracks"}},
 ]
 
 const favorites = [
