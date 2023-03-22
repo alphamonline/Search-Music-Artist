@@ -1,13 +1,214 @@
 import {createStore} from "vuex";
 import axiosClient from "../axios";
-import {data} from "autoprefixer";
+
+const topAlbumsTemp = [
+  {
+    name: "Dynamite",
+    mbid: "",
+    url: "https://www.last.fm/music/BTS",
+    artist: {
+      name: "BTS",
+      mbid: "0d79fe8e-ba27-4859-bb8c-2f255f346853",
+      url: "https://www.last.fm/music/BTS"
+    },
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/41b15d8a0ad6a81323b598bfb19cede9.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/41b15d8a0ad6a81323b598bfb19cede9.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/41b15d8a0ad6a81323b598bfb19cede9.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/41b15d8a0ad6a81323b598bfb19cede9.png",
+        size: "extralarge"
+      }
+    ],
+    attr: {
+      rank: "1"
+    }
+  },
+  {
+    name: "The Perfect Red Velvet - The 2nd Album Repackage",
+    mbid: "",
+    url: "https://www.last.fm/music/Red+Velvet",
+    artist: {
+      name: "Red Velvet",
+      mbid: "4f0cb3b7-6c06-4317-ae35-ddf3106a17ee",
+      url: "https://www.last.fm/music/Red+Velvet"
+    },
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
+        size: "extralarge"
+      }
+    ],
+    attr: {rank: "2"
+    }
+  },
+  {
+    name: "Flowers",
+    mbid: "",
+    url: "https://www.last.fm/music/Miley+Cyrus",
+    artist: {
+      name: "Miley Cyrus",
+      mbid: "7e9bd05a-117f-4cce-87bc-e011527a8b18",
+      url: "https://www.last.fm/music/Miley+Cyrus"
+    },
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
+        size: "extralarge"
+      }
+    ],
+    attr: {
+      rank: "3"
+    }
+  },
+];
+
+const topTracksTemp = [
+  {
+    name: "Billie Jean",
+    duration: "293",
+    mbid: "f980fc14-e29b-481d-ad3a-5ed9b4ab6340",
+    url: "https://www.last.fm/music/Michael+Jackson/_/Billie+Jean",
+    streamable: {
+      text: "0",
+      fulltrack: "0"
+    },
+    artist: {
+      name: "Michael Jackson",
+      mbid: "f27ec8db-af05-4f36-916e-3d57f91ecf5e",
+      url: "https://www.last.fm/music/Michael+Jackson"
+    },
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "extralarge"
+      }
+    ],
+    attr: {
+      rank: "1"
+    }
+  },
+];
+
+const topArtistsTemp = [
+  {
+    name: "Bee Gees",
+    mbid: "bf0f7e29-dfe1-416c-b5c6-f9ebc19ea810",
+    url: "https://www.last.fm/music/Bee+Gees",
+    streamable: "0",
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "extralarge"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "mega"
+      }
+    ],
+    attr: {
+      rank: "1"
+    }
+  },
+  {
+    name: "Boney M.",
+    mbid: "5403bf6e-bc1d-4e62-b31f-926a2bf66a14",
+    url: "https://www.last.fm/music/Boney+M.",
+    streamable: "0",
+    image: [
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "small"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "medium"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "large"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "extralarge"
+      },
+      {
+        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+        size: "mega"
+      }
+    ],
+    attr: {
+      rank: "2"
+    }
+  },
+];
 
 const store = createStore({
   state: {
     user: {
       data: {},
       token: sessionStorage.getItem("TOKEN"),
-    }
+    },
+    topAlbums: [...topAlbumsTemp],
+    topTracks: [...topTracksTemp],
+    topArtists: [...topArtistsTemp],
   },
   getters: {},
   actions: {

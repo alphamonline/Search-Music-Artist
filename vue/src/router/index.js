@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import Home from "../views/dashboard/Home.vue";
 import Artists from "../views/dashboard/Artists.vue";
 import Albums from "../views/dashboard/Albums.vue";
-import Songs from "../views/dashboard/Songs.vue";
+import Tracks from "../views/dashboard/Tracks.vue";
 import Login from "../views/auth/Login.vue";
 import Register from "../views/auth/Register.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
@@ -10,6 +10,9 @@ import AuthLayout from "../components/AuthLayout.vue";
 import store from "../store/index.js";
 import Favorites from "../views/dashboard/Favorites.vue";
 import Google from "../views/auth/Google.vue";
+import ArtistView from "../views/dashboard/ArtistView.vue";
+import AlbumView from "../views/dashboard/AlbumView.vue";
+import TrackView from "../views/dashboard/TrackView.vue";
 
 const routes = [
   {
@@ -20,8 +23,11 @@ const routes = [
     children: [
       {path: '/home', name: 'Home', component: Home},
       {path: '/artists', name: 'Artists', component: Artists},
+      {path: '/artist/:rank', name: 'ArtistView', component: ArtistView},
       {path: '/albums', name: 'Albums', component: Albums},
-      {path: '/songs', name: 'Songs', component: Songs},
+      {path: '/album/:rank', name: 'AlbumView', component: AlbumView},
+      {path: '/tracks', name: 'Tracks', component: Tracks},
+      {path: '/track/:rank', name: 'TrackView', component: TrackView},
       {path: '/favorites', name: 'Favorites', component: Favorites},
     ]
   },
