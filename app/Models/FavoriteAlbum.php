@@ -4,20 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class FavoriteAlbum extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
 
     protected $fillable = [
         'user_id',
         'album_name',
+        'slug',
         'artist_name',
         'image',
         'album_url',
         'artist_url',
         'rank',
     ];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom(['album_name', 'artist_name'])
+            ->saveSlugsTo('slug');
+    }
 
     public function user()
     {

@@ -22,13 +22,13 @@ class UpdateFavoriteAlbumRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            'user_id' => 'exists:users,id',
             'album_name' => 'required|string|max:255',
             'image' => 'required|string|max:255',
-            'album_url' => 'string',
-            'artist_name' => 'string',
-            'artist_url' => 'string',
-            'rank' => 'string',
+            'album_url' => 'nullable|string',
+            'artist_name' => 'nullable|string',
+            'artist_url' => 'nullable|string',
+            'rank' => 'nullable|string',
         ];
     }
 }

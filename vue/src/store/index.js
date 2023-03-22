@@ -344,18 +344,33 @@ const store = createStore({
     },
   },
   mutations: {
+    setFavAlbum: (state, favAlbum) => {
+      state.favAlbum.data = favAlbum;
+    },
+    updateFavAlbum: (state, favAlbum) => {
+      state.favAlbum.data = favAlbum.map((a) =>{
+        if (a.id === favAlbum.id) {
+          return favAlbum.data
+        }
+        return a;
+      });
+    },
+    setFavArtist: (state, favArtist) => {
+      state.favArtist.data = favArtist;
+    },
+    updateFavArtist: (state, favArtist) => {
+      state.favArtist.data = favArtist.map((a) =>{
+        if (a.id === favArtist.id) {
+          return favArtist.data
+        }
+        return a;
+      });
+    },
     logout: (state) => {
       state.user.token = null;
       state.user.data = {};
       sessionStorage.removeItem("TOKEN");
       sessionStorage.clear();
-    },
-    setFavAlbum: (state, favAlbum) => {
-      state.favAlbum.data = favAlbum;
-
-    },
-    setFavArtist: (state, favArtist) => {
-      state.favArtist.data = favArtist;
     },
     setUser: (state, user) => {
       state.user.data = user;

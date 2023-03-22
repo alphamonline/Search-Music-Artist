@@ -18,12 +18,14 @@ class FavoriteArtistResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'slug' => $this->slug,
             'artist_name' => $this->artist_name,
             'image' => $this->image,
             'mbid' => $this->mbid,
             'url' => $this->url,
             'rank' => $this->rank,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

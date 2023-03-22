@@ -14,12 +14,12 @@ class UpdateFavoriteArtistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
+            'user_id' => 'exists:users,id',
             'artist_name' => 'required|string|max:255',
             'image' => 'required|string|max:255',
-            'mbid' => 'string',
-            'url' => 'string',
-            'rank' => 'string',
+            'mbid' => 'nullable|string',
+            'url' => 'nullable|string',
+            'rank' => 'nullable|string',
         ];
     }
 }
