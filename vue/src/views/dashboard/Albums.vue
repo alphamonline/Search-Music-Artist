@@ -1,5 +1,5 @@
 <template>
-  <PageComponent title="Albums">
+  <PageComponent>
     Content goes here
   </PageComponent>
 </template>

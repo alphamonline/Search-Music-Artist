@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
 import axiosClient from "../axios";
+import createPersistedState from 'vuex-persistedstate'
 
 const topAlbumsTemp = [
   {
@@ -201,7 +202,64 @@ const topArtistsTemp = [
   },
 ];
 
+const favoriteAlbumsTemp = [
+  {
+    id: 2,
+    user_id: 3,
+    album_name: "Flowers",
+    artist_name: "Miley Cyrus",
+    image: "https://lastfm.freetls.fastly.net/i/u/300x300/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
+    album_url: "https://www.last.fm/music/Miley+Cyrus",
+    artist_url: "https://www.last.fm/music/Miley+Cyrus",
+    rank: "3"
+  },
+  {
+    id: 3,
+    user_id: 3,
+    album_name: "The Perfect Red Velvet - The 2nd Album Repackage",
+    artist_name: "Red Velvet",
+    image: "https://lastfm.freetls.fastly.net/i/u/300x300/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
+    album_url: "https://www.last.fm/music/Red+Velvet",
+    artist_url: "https://www.last.fm/music/Red+Velvet",
+    rank: "2"
+  },
+  {
+    id: 4,
+    user_id: 3,
+    album_name: "Dynamite",
+    artist_name: "BTS",
+    image: "https://lastfm.freetls.fastly.net/i/u/300x300/41b15d8a0ad6a81323b598bfb19cede9.png",
+    album_url: "https://www.last.fm/music/BTS",
+    artist_url: "https://www.last.fm/music/BTS",
+    rank: "1"
+  }
+];
+
+const favoriteArtistsTemp = [
+  {
+    id: 1,
+    user_id: 3,
+    artist_name: "Cher",
+    image: "https://lastfm.freetls.fastly.net/i/u/300x300/3b54885952161aaea4ce2965b2db1638.png",
+    mbid: null,
+    url: null,
+    rank: null
+  },
+  {
+    id: 2,
+    user_id: 3,
+    artist_name: "Test",
+    image: "https://lastfm.freetls.fastly.net/i/u/300x300/3b54885952161aaea4ce2965b2db1638.png",
+    mbid: "32ca187e-ee25-4f18-b7d0-3b6713f24635",
+    url: "https://www.last.fm/music/Test",
+    rank: "2"
+  }
+];
+
 const store = createStore({
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+  })],
   state: {
     user: {
       data: {},
@@ -216,6 +274,8 @@ const store = createStore({
     topAlbums: [...topAlbumsTemp],
     topTracks: [...topTracksTemp],
     topArtists: [...topArtistsTemp],
+    favoriteAlbums: [...favoriteAlbumsTemp],
+    favoriteArtists: [...favoriteArtistsTemp],
   },
   getters: {},
   actions: {
@@ -288,6 +348,7 @@ const store = createStore({
       state.user.token = null;
       state.user.data = {};
       sessionStorage.removeItem("TOKEN");
+      sessionStorage.clear();
     },
     setFavAlbum: (state, favAlbum) => {
       state.favAlbum.data = favAlbum;
