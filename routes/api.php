@@ -27,14 +27,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('{provider}/callback', [SocialAuthController::class, 'callback']);
     });
 
-    //Last.fm Get top albums request
-    Route::get('top-albums', [HomeController::class, 'topAlbums']);
-    Route::get('top-artists', [HomeController::class, 'topArtists']);
-    Route::get('top-tracks', [HomeController::class, 'topTracks']);
-
     //Authenticated Routes
     Route::middleware('auth:sanctum')->group(function () {
 
+        //Last.fm Get top albums request
+        Route::get('top-albums', [HomeController::class, 'topAlbums']);
+        Route::get('top-artists', [HomeController::class, 'topArtists']);
+        Route::get('top-tracks', [HomeController::class, 'topTracks']);
 
         Route::get('user/{id}', [UserController::class, 'show']);
         Route::post('logout', [AuthController::class, 'logout']);
