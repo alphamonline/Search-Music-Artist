@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreFavoriteAlbumRequest extends FormRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'user_id' => 'required',
+            'album_name' => 'required|string|max:255',
+            'image' => 'required|string|max:255',
+            'album_url' => 'string',
+            'artist_name' => 'string',
+            'artist_url' => 'string',
+            'rank' => 'string',
+        ];
+    }
+}

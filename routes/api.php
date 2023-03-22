@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\lastfm\FavoriteAlbumController;
+use App\Http\Controllers\API\v1\lastfm\FavoriteArtistController;
 use App\Http\Controllers\API\v1\lastfm\HomeController;
 use App\Http\Controllers\API\v1\SocialAuthController;
 use App\Http\Controllers\API\v1\UserController;
@@ -29,8 +31,15 @@ Route::group(['prefix' => 'v1'], function () {
 
     //Last.fm Get top albums request
     Route::get('top-albums', [HomeController::class, 'topAlbums']);
+    //Last.fm Get top artists request
     Route::get('top-artists', [HomeController::class, 'topArtists']);
+    //Last.fm Get top tracks request
     Route::get('top-tracks', [HomeController::class, 'topTracks']);
+
+    //Auth User Profile favorite albums requests-resource
+    Route::apiResource('/favorite-albums', FavoriteAlbumController::class);
+    //Auth User Profile favorite artists requests-resource
+    Route::apiResource('/favorite-artists', FavoriteArtistController::class);
 
     //Authenticated Routes
     Route::middleware('auth:sanctum')->group(function () {

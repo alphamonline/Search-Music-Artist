@@ -46,4 +46,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(SocialAccount::class);
     }
+
+    public function favoriteAlbums()
+    {
+        return $this->hasMany(FavoriteAlbum::class);
+    }
+
+    public function favoriteArtists()
+    {
+        return $this->hasMany(FavoriteArtist::class);
+    }
 }
