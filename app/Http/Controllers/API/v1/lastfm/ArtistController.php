@@ -24,4 +24,20 @@ class ArtistController extends Controller
         }
 
     }
+
+    public function currentArtist(Request $request, $name)
+    {
+        try {
+            $artist = $name;
+
+            return $response = Http::get(self::LASTFM_API_ROOT.'?method=artist.getinfo&artist='.$artist.'&api_key='.self::LASTFM_API_KEY.'&format=json');
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong trying to show this user record!',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+    }
 }

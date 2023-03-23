@@ -33,14 +33,17 @@ Route::group(['prefix' => 'v1'], function () {
     //Authenticated Routes
     Route::middleware('auth:sanctum')->group(function () {
 
-        //Last.fm Get top albums request
+        //Last.fm Get requests
         Route::get('top-albums', [HomeController::class, 'topAlbums']);
-        //Last.fm Get top artists request
         Route::get('top-artists', [HomeController::class, 'topArtists']);
-        //Last.fm Get search album request
+
+        //Last.fm Get search requests
         Route::get('search-album/{name}', [AlbumController::class, 'searchAlbums']);
-        //Last.fm Get search artist request
         Route::get('search-artist/{name}', [ArtistController::class, 'searchArtists']);
+
+        //Last.fm Get search requests
+        Route::get('current-album/{artist}/{name}', [AlbumController::class, 'currentAlbum']);
+        Route::get('current-artist/{name}', [ArtistController::class, 'currentArtist']);
 
         //Auth User Profile favorite albums requests-resource
         Route::apiResource('/favorite-albums', FavoriteAlbumController::class);

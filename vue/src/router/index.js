@@ -25,7 +25,7 @@ const routes = [
       {path: '/artists', name: 'Artists', component: Artists},
       {path: '/artist/:name', name: 'ArtistView', component: ArtistView},
       {path: '/albums', name: 'Albums', component: Albums},
-      {path: '/album', name: 'AlbumView', component: AlbumView},
+      {path: '/album/:artist/:name', name: 'AlbumView', component: AlbumView},
       {path: '/favorites', name: 'Favorites', component: Favorites},
       {path: '/favorite/:id', name: 'FavoriteAlbumView', component: FavoriteAlbumView},
       {path: '/favorite/:id', name: 'FavoriteArtistView', component: FavoriteArtistView},

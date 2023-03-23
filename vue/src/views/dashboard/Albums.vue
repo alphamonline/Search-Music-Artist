@@ -36,12 +36,12 @@
           :key="album.name"
           class="max-w-sm bg-white"
         >
-          <router-link :to="{ name: 'AlbumView', params: {name: album.name} }">
+          <router-link :to="{ name: 'AlbumView', params: {artist: album.artist, name: album.name} }">
             <img class="h-auto max-w-full rounded-lg" :src="album.image[2]['#text']" alt="">
           </router-link>
           <div class="p-5">
             <router-link
-              :to="{ name: 'AlbumView', params: {name: album.name} }"
+              :to="{ name: 'AlbumView', params: {artist: album.artist, name: album.name} }"
               class="text-blue-700 hover:underline dark:text-blue-500"
             >
               <p class="mb-2 font-bold tracking-tight text-gray-900 dark:text-gray-900">{{ album.name }}</p>

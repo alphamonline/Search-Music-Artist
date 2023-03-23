@@ -177,7 +177,13 @@ const store = createStore({
     album: {
       data: {},
     },
+    currentAlbum: {
+      data: {},
+    },
     artist: {
+      data: {},
+    },
+    currentArtist: {
       data: {},
     },
     favAlbum: {
@@ -249,7 +255,7 @@ const store = createStore({
     searchAlbum({commit}, name) {
       return axiosClient.get('/search-album/'+name)
       .then(({data}) => {
-        commit('setCurrentAlbum', data.album);
+        commit('setAlbum', data.album);
         return data;
       })
         .catch((err) => {
@@ -258,6 +264,30 @@ const store = createStore({
     },
     searchArtist({commit}, name) {
       return axiosClient.get('/search-artist/'+name)
+        .then(({data}) => {
+          commit('setArtist', data.artist);
+          return data;
+        })
+        .catch((err) => {
+          throw err;
+        });
+    },
+
+    //GetCurrent Album
+    getCurrentAlbum({commit}, artist, name) {
+      return axiosClient.get('/current-album/'+artist+'&'+name)
+        .then(({data}) => {
+          commit('setCurrentAlbum', data.album);
+          return data;
+        })
+        .catch((err) => {
+          throw err;
+        });
+    },
+
+    //Get Current Artist
+    getCurrentArtist({commit}, name) {
+      return axiosClient.get('/current-artist/'+name)
         .then(({data}) => {
           commit('setCurrentArtist', data.artist);
           return data;
@@ -308,11 +338,17 @@ const store = createStore({
     },
   },
   mutations: {
-    setCurrentAlbum: (state, album) => {
+    setAlbum: (state, album) => {
       state.album.data = album;
     },
-    setCurrentArtist: (state, artist) => {
+    setArtist: (state, artist) => {
       state.artist.data = artist;
+    },
+    setCurrentAlbum: (state, album) => {
+      state.currentAlbum.data = album;
+    },
+    setCurrentArtist: (state, artist) => {
+      state.currentArtist.data = artist;
     },
     setFavAlbum: (state, favAlbum) => {
       state.favAlbum.data = favAlbum;
