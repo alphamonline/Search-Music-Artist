@@ -1,8 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <PageViewHeadComponent>
     <template v-slot:name-rank>
-      <h4 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">{{ favArtist.artist_name }}</h4>
-      <h4 class="mb-2 text-2xl text-gray-900 dark:text-white">{{ 'Ranked - #' + favArtist.rank }}</h4>
+      <h4 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">{{ artist.artist_name }}</h4>
       <button @click="deleteFavArtist"
               class="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -14,15 +13,11 @@
     <template v-slot:image>
       <img
         class="h-full w-full object-cover transition-transform duration-500 group-hover:rotate-3 group-hover:scale-125"
-        :src="favArtist.image" alt=""
+        :src="artist.image" alt=""
       />
     </template>
     <template v-slot:image-info>
-      <h1 class="font-dmserif text-3xl font-bold text-white">{{ favArtist.artist_name }}</h1>
-      <p
-        class="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        {{ 'Rank - #' + favArtist.rank }}
-      </p>
+      <h1 class="font-dmserif text-3xl font-bold text-white">{{ artist.artist_name }}</h1>
       <button @click="deleteFavArtist"
               class="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -36,7 +31,7 @@
       <div class="whitespace-pre-line">
         <h4
           class="pb-6 mt-6 text-2xl font-extrabold text-gray-900 underline decoration-blue-800 underline-offset-1 ">
-          Top Tracks
+
         </h4>
       </div>
     </div>
@@ -57,27 +52,21 @@ export default {
   setup() {
     const route = useRoute()
     const router = useRouter()
-    let favArtist = ref({
-      id: "",
-      user_id: "",
-      artist_name: "",
-      image: "",
-      mbid: "",
-      url: "",
-      rank: ""
-    })
+    const artist = ref({})
 
     if (route.params.id) {
-      favArtist.value = store.state.favoriteArtists.find(
-        (a) => a.id === parseInt(route.params.id)
-      );
+      store
+        .dispatch('getCurrentFavArtist', route.params.id)
+        .then(data => {
+          artist.value = data.artist;
+        });
     }
 
     function deleteFavArtist(ev) {
       ev.preventDefault();
       if (confirm('Are you sure you want to remove from list?')) {
         store
-          .dispatch("deleteFavArtist", favArtist.value.id)
+          .dispatch("deleteFavArtist", artist.value.id)
           .then(() => {
             router.push({
               name: "Favorites",

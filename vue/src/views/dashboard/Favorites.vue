@@ -129,7 +129,7 @@
 
 <script>
 import PageComponent from "../../components/PageComponent.vue";
-import {computed, ref} from "vue";
+import { ref } from "vue";
 import store from "../../store/index.js";
 
 export default {
@@ -137,11 +137,20 @@ export default {
     PageComponent
   },
   setup() {
-    const favoriteAlbums = computed(() => (store.state.favoriteAlbums.data));
-    const favoriteArtists = computed(() => store.state.favoriteArtists.data);
+    const favoriteAlbums = ref([]);
+    const favoriteArtists = ref([]);
 
-    store.dispatch('getFavoriteAlbums');
-    store.dispatch('getFavoriteArtist');
+    store.dispatch('getFavoriteAlbums')
+      .then(data => {
+        favoriteAlbums.value = data.data;
+        console.log(favoriteAlbums.value)
+      });
+
+    store.dispatch('getFavoriteArtist')
+      .then(data => {
+        favoriteArtists.value = data.data;
+        console.log(favoriteArtists.value)
+      });
 
     return {
       favoriteAlbums,

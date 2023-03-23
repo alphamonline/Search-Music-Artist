@@ -17,10 +17,8 @@ return new class extends Migration
             $table->string('album_name');
             $table->string('slug');
             $table->string('artist_name')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('album_url')->nullable();
-            $table->string('artist_url')->nullable();
-            $table->string('rank')->nullable();
             $table->timestamps();
         });
     }

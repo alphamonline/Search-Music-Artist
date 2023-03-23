@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('mbid')->nullable();
             $table->string('url')->nullable();
-            $table->string('image');
-            $table->string('rank')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

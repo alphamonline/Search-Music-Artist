@@ -25,4 +25,21 @@ class AlbumController extends Controller
         }
     }
 
+    public function currentAlbum(Request $request, $artist, $name)
+    {
+        try {
+            $artist = $artist;
+            $album = $name;
+
+            return $response = Http::get(self::LASTFM_API_ROOT.'?method=album.getinfo&api_key='.self::LASTFM_API_KEY.'&artist='.$artist.'&album='.$album.'&format=json');
+
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Something went wrong trying to show this user record!',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
 }
