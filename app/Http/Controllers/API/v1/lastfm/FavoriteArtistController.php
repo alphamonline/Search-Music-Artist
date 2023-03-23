@@ -7,15 +7,19 @@ use App\Http\Requests\StoreFavoriteArtistRequest;
 use App\Http\Requests\UpdateFavoriteArtistRequest;
 use App\Http\Resources\FavoriteArtistResource;
 use App\Models\FavoriteArtist;
+use Illuminate\Http\Request;
 
 class FavoriteArtistController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return FavoriteArtistResource::collection(FavoriteArtist::all());
+        $user = $request->user();
+
+        // Get favorite albums based on the current user
+        return FavoriteArtistResource::collection(FavoriteArtist::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
     }
 
     /**
@@ -31,8 +35,15 @@ class FavoriteArtistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FavoriteArtist $favoriteArtist)
+    public function show(FavoriteArtist $favoriteArtist, Request $request)
     {
+        $user = $request->user();
+
+        // Check if current user is owner
+        if ($user->id !== $favoriteArtist->user_id) {
+            return abort(403, 'Unauthorized action.');
+        }
+
         return FavoriteArtistResource::make($favoriteArtist);
     }
 
@@ -49,10 +60,18 @@ class FavoriteArtistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FavoriteArtist $favoriteArtist)
+    public function destroy(FavoriteArtist $favoriteArtist, Request $request)
     {
+
+        $user = $request->user();
+
+        // Check if current user is owner
+        if ($user->id !== $favoriteArtist->user_id) {
+            return abort(403, 'Unauthorized action.');
+        }
+
         $favoriteArtist->delete();
 
-        return response()->noContent();
+        return response('', 204);
     }
 }

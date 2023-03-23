@@ -50,7 +50,7 @@ class SocialAuthController extends Controller
         //login user and create token
         $token = $appUser->createToken('Login token')->plainTextToken;
         return response()->json([
-            'user' => $user,
+            'user' => $appUser,
             'token' => $token
         ]);
 

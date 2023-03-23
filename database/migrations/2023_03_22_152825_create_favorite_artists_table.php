@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('artist_name');
+            $table->string('slug');
             $table->string('mbid')->nullable();
             $table->string('url')->nullable();
             $table->string('image');

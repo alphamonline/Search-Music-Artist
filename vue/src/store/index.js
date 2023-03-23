@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
 import axiosClient from "../axios";
+import createPersistedState from 'vuex-persistedstate'
 
 const topAlbumsTemp = [
   {
@@ -60,7 +61,8 @@ const topAlbumsTemp = [
         size: "extralarge"
       }
     ],
-    attr: {rank: "2"
+    attr: {
+      rank: "2"
     }
   },
   {
@@ -92,45 +94,6 @@ const topAlbumsTemp = [
     ],
     attr: {
       rank: "3"
-    }
-  },
-];
-
-const topTracksTemp = [
-  {
-    name: "Billie Jean",
-    duration: "293",
-    mbid: "f980fc14-e29b-481d-ad3a-5ed9b4ab6340",
-    url: "https://www.last.fm/music/Michael+Jackson/_/Billie+Jean",
-    streamable: {
-      text: "0",
-      fulltrack: "0"
-    },
-    artist: {
-      name: "Michael Jackson",
-      mbid: "f27ec8db-af05-4f36-916e-3d57f91ecf5e",
-      url: "https://www.last.fm/music/Michael+Jackson"
-    },
-    image: [
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "small"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "medium"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "large"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "extralarge"
-      }
-    ],
-    attr: {
-      rank: "1"
     }
   },
 ];
@@ -200,18 +163,43 @@ const topArtistsTemp = [
   },
 ];
 
+
+
 const store = createStore({
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+  })],
   state: {
     user: {
       data: {},
       token: sessionStorage.getItem("TOKEN"),
     },
+    album: {
+      data: {},
+    },
+    artist: {
+      data: {},
+    },
+    favAlbum: {
+      data: {},
+    },
+    favArtist: {
+      data: {},
+    },
     topAlbums: [...topAlbumsTemp],
-    topTracks: [...topTracksTemp],
     topArtists: [...topArtistsTemp],
+    favoriteAlbums: {
+      loading: false,
+      data: []
+    },
+    favoriteArtists: {
+      loading: false,
+      data: []
+    },
   },
   getters: {},
   actions: {
+    // Registration | Login | get User | Logout Actions
     google() {
       return axiosClient.get('/google/redirect')
         .then(({data}) => {
@@ -244,13 +232,6 @@ const store = createStore({
           return data;
         })
     },
-    logout({commit}) {
-      return axiosClient.post('/logout')
-        .then(response => {
-          commit('logout')
-          return response;
-        })
-    },
     getUser({commit}) {
       return axiosClient.get('/user')
         .then(res => {
@@ -258,14 +239,110 @@ const store = createStore({
           commit('setUser', res.data)
         })
     },
+    logout({commit}) {
+      return axiosClient.post('/logout')
+        .then(response => {
+          commit('logout')
+          return response;
+        })
+    },
+
+    //Get requests Actions
+    searchAlbum({commit}, name) {
+      return axiosClient.get('/search-album/'+name)
+      .then(({data}) => {
+        commit('setCurrentAlbum', data.album);
+        commit('setCurrentAlbumLoading', false);
+        return data;
+      })
+        .catch((err) => {
+          commit('setCurrentAlbumLoading', false);
+          throw err;
+        });
+    },
+    searchArtist({commit}, name) {
+      commit('setCurrentArtistLoading', true);
+      return axiosClient.get('/search-artist/'+name)
+        .then(({data}) => {
+          commit('setCurrentArtist', data.artist);
+          commit('setCurrentArtistLoading', false);
+          return data;
+        })
+        .catch((err) => {
+          commit('setCurrentArtistLoading', false);
+          throw err;
+        });
+    },
+
+    //Get requests: favorites Action
+    getFavoriteAlbums({commit}) {
+      commit('setFavAlbumLoading', true);
+      return axiosClient.get('/favorite-albums')
+        .then(({data}) => {
+          commit('setFavAlbumLoading', false);
+          commit('setFavAlbum', data.favAlbum);
+          return data;
+        })
+    },
+    getFavoriteArtist({commit}) {
+      commit('setFavArtistLoading', true);
+      return axiosClient.get('/favorite-artists')
+        .then(({data}) => {
+          commit('setFavArtistLoading', false);
+          commit('setFavArtist', data.favArtist);
+          return data;
+        })
+    },
+
+    //Add to favorites Actions
+    favoriteAlbum({commit}, payload) {
+      return axiosClient.post('/favorite-albums', payload)
+        .then(({data}) => {
+          commit('setFavAlbum', data.favAlbum);
+          return data;
+        })
+    },
+    favoriteArtist({commit}, payload) {
+      return axiosClient.post('/favorite-artists', payload)
+        .then(({data}) => {
+          commit('setFavArtist', data.favArtist);
+          return data;
+        })
+    },
+
+    //Destroy to favorites Actions
+    deleteFavAlbum({commit}, payload) {
+      return axiosClient.delete('/favorite-albums', payload)
+    },
+    deleteFavArtist({commit}, payload) {
+      return axiosClient.delete('/favorite-artists', payload)
+    },
   },
   mutations: {
+    setFavAlbumLoading: (state, loading) => {
+      state.favoriteAlbums.loading = loading;
+    },
+    setFavArtistLoading: (state, loading) => {
+      state.favoriteArtists.loading = loading;
+    },
+    setCurrentAlbum: (state, album) => {
+      state.album.data = album;
+    },
+    setCurrentArtist: (state, artist) => {
+      state.artist.data = artist;
+    },
+    setFavAlbum: (state, favAlbum) => {
+      state.favAlbum.data = favAlbum;
+    },
+    setFavArtist: (state, favArtist) => {
+      state.favArtist.data = favArtist;
+    },
     logout: (state) => {
       state.user.token = null;
       state.user.data = {};
       sessionStorage.removeItem("TOKEN");
+      sessionStorage.clear();
     },
-
     setUser: (state, user) => {
       state.user.data = user;
     },

@@ -1,13 +1,5 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-100">
-    <body class="h-full">
-    ```
-  -->
   <div class="min-h-full">
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -205,7 +197,6 @@ const navigation = [
   {name: 'Home', to: {name: "Home"}},
   {name: 'Artists', to: {name: "Artists"}},
   {name: 'Albums', to: {name: "Albums"}},
-  {name: 'Tracks', to: {name: "Tracks"}},
 ]
 
 const favorites = [

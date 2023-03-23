@@ -16,18 +16,17 @@ class FavoriteAlbumResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var User $user */
-        $user = Auth::user();
-
         return [
             'id' => $this->id,
-            'user_id' => $user->id,
+            'slug' => $this->slug,
             'album_name' => $this->album_name,
             'artist_name' => $this->artist_name,
             'image' => $this->image,
             'album_url' => $this->album_url,
             'artist_url' => $this->artist_url,
             'rank' => $this->rank,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
