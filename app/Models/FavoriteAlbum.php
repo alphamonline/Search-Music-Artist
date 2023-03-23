@@ -15,9 +15,6 @@ class FavoriteAlbum extends Model
         'user_id',
         'album_name',
         'slug',
-        'artist_name',
-        'image',
-        'album_url',
     ];
 
     public function getSlugOptions(): SlugOptions

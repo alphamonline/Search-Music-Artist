@@ -16,10 +16,6 @@ class UpdateFavoriteArtistRequest extends FormRequest
         return [
             'user_id' => 'exists:users,id',
             'artist_name' => 'required|string|max:255',
-            'image' => 'nullable|string',
-            'mbid' => 'nullable|string',
-            'url' => 'nullable|string',
-            'rank' => 'nullable|string',
         ];
     }
 }
