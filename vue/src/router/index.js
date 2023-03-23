@@ -10,8 +10,6 @@ import Favorites from "../views/dashboard/Favorites.vue";
 import Google from "../views/auth/Google.vue";
 import ArtistView from "../views/dashboard/ArtistView.vue";
 import AlbumView from "../views/dashboard/AlbumView.vue";
-import FavoriteAlbumView from "../views/dashboard/FavoriteAlbumView.vue";
-import FavoriteArtistView from "../views/dashboard/FavoriteArtistView.vue";
 
 const routes = [
   {
@@ -25,8 +23,6 @@ const routes = [
       {path: '/albums', name: 'Albums', component: Albums},
       {path: '/album/:artist/:name', name: 'AlbumView', component: AlbumView},
       {path: '/favorites', name: 'Favorites', component: Favorites},
-      {path: '/favorite/:id', name: 'FavoriteAlbumView', component: FavoriteAlbumView},
-      {path: '/favorite/:id', name: 'FavoriteArtistView', component: FavoriteArtistView},
     ]
   },
   {

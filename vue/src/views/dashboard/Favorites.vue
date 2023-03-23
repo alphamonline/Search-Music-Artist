@@ -1,135 +1,77 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <PageComponent>
-    <div class="whitespace-pre-line flex justify-between items-center sm:flex sm:space-y-0 sm:space-x-4">
-      <div>
-        <h4 class="inline-flex text-left px-4 py-2 text-md font-medium text-center text-gray-900">
-          Albums
-        </h4>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-white dark:text-gray-600">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              Album Name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Artist Name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Rank
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Explore
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-            v-for="favoriteAlbum in favoriteAlbums"
-            :key="favoriteAlbum.id"
-            class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-200">
-            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-              <img class="w-10 h-10 rounded-full" :src="favoriteAlbum.image" alt="">
-              <div class="pl-3">
-                <div class="text-base text-gray-900 font-semibold">{{ favoriteAlbum.album_name }}</div>
-                <div class="font-normal text-gray-400">{{ favoriteAlbum.album_url }}</div>
-              </div>
-            </th>
-            <td class="px-6 py-4">
-              {{ favoriteAlbum.artist_name }}
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"/>
-                </svg>
-                {{ favoriteAlbum.rank }}
-              </div>
-            </td>
-            <td class="px-6 py-4">
-              <router-link :to="{ name: 'FavoriteAlbumView', params: { id: favoriteAlbum.id }}"
-                           data-modal-target="editUserModal" data-modal-show="editUserModal"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
-                </svg>
-              </router-link>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+    <div>
+      <h4 class="inline-flex text-left px-4 py-2 text-md font-medium text-center text-gray-900">
+        Albums
+      </h4>
+      <div
+        v-for="favoriteAlbum in favoriteAlbums"
+        :key="favoriteAlbum.id">
+        <div id="alert-5" class="flex p-4 bg-gray-50 dark:bg-gray-800" role="alert">
+          <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-gray-800 dark:text-gray-300" fill="currentColor"
+               viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Info</span>
+          <div class="ml-3 text-sm font-medium text-gray-800 dark:text-gray-300">
+            {{ favoriteAlbum.album_name }}
+          </div>
+          <button @submit="deleteFavAlbum"
+                  class="ml-auto -mx-1.5 -my-1.5 bg-gray-50 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                  data-dismiss-target="#alert-5" aria-label="Close">
+            <span class="sr-only">Dismiss</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
-    <div class="whitespace-pre-line flex justify-between items-center sm:flex sm:space-y-0 sm:space-x-4">
-      <div>
-        <h4 class="inline-flex pt-16 text-left px-4 py-2 text-md font-medium text-center text-gray-900">
-          Artist
-        </h4>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-white dark:text-gray-600">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              Artist Name
-            </th>
-            <th scope="col" class="px-6 py-3">
-              MBID
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Rank
-            </th>
-            <th scope="col" class="px-6 py-3">
-              Explore
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-            v-for="favoriteArtist in favoriteArtists"
-            :key="favoriteArtist.id"
-            class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-200">
-            <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-              <img class="w-10 h-10 rounded-full" :src="favoriteArtist.image" alt="">
-              <div class="pl-3">
-                <div class="text-base text-gray-900 font-semibold">{{ favoriteArtist.artist_name }}</div>
-                <div class="font-normal text-gray-400">{{ favoriteArtist.url }}</div>
-              </div>
-            </th>
-
-            <td class="px-6 py-4">
-              {{ favoriteArtist.mbid }}
-            </td>
-            <td class="px-6 py-4">
-              <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"/>
-                </svg>
-                {{ favoriteArtist.rank }}
-              </div>
-            </td>
-            <td class="px-6 py-4">
-              <router-link :to="{ name: 'FavoriteArtistView', params: { id: favoriteArtist.id }}"
-                           data-modal-target="editUserModal" data-modal-show="editUserModal"
-                           class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
-                </svg>
-              </router-link>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+    <div>
+      <h4 class="inline-flex text-left px-4 py-2 text-md font-medium text-center text-gray-900">
+        Artist
+      </h4>
+      <div
+        v-for="favoriteArtist in favoriteArtists"
+        :key="favoriteArtist.id">
+        <div id="alert-5" class="flex p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="alert">
+          <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-gray-800 dark:text-gray-300" fill="currentColor"
+               viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Info</span>
+          <div class="ml-3 text-sm font-medium text-gray-800 dark:text-gray-300">
+            {{ favoriteArtist.artist_name }}
+          </div>
+          <button @submit="deleteFavArtist"
+                  class="ml-auto -mx-1.5 -my-1.5 bg-gray-50 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                  data-dismiss-target="#alert-5" aria-label="Close">
+            <span class="sr-only">Dismiss</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
+
   </PageComponent>
 </template>
 
 <script>
 import PageComponent from "../../components/PageComponent.vue";
-import { ref } from "vue";
+import {ref} from "vue";
 import store from "../../store/index.js";
 
 export default {
@@ -143,18 +85,50 @@ export default {
     store.dispatch('getFavoriteAlbums')
       .then(data => {
         favoriteAlbums.value = data.data;
-        console.log(favoriteAlbums.value)
       });
 
     store.dispatch('getFavoriteArtist')
       .then(data => {
         favoriteArtists.value = data.data;
-        console.log(favoriteArtists.value)
       });
+
+    function deleteFavAlbum(ev) {
+      ev.preventDefault();
+      if (confirm('Are you sure you want to remove from list?')) {
+        store
+          .dispatch("deleteFavAlbum", favoriteAlbums.value.id)
+          .then(() => {
+            router.push({
+              name: "Favorites",
+            });
+          })
+          .catch((err) => {
+            throw err
+          });
+      }
+    }
+
+    function deleteFavArtist(ev) {
+      ev.preventDefault();
+      if (confirm('Are you sure you want to remove from list?')) {
+        store
+          .dispatch("deleteFavArtist", favoriteArtists.value.id)
+          .then(() => {
+            router.push({
+              name: "Favorites",
+            });
+          })
+          .catch((err) => {
+            throw err
+          });
+      }
+    }
 
     return {
       favoriteAlbums,
       favoriteArtists,
+      deleteFavAlbum,
+      deleteFavArtist,
     };
   },
 }

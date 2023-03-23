@@ -16,11 +16,6 @@ class StoreFavoriteAlbumRequest extends FormRequest
         return [
             'user_id' => 'exists:users,id',
             'album_name' => 'required|string|max:255',
-            'image' => 'nullable|string',
-            'album_url' => 'nullable|string',
-            'artist_name' => 'nullable|string',
-            'artist_url' => 'nullable|string',
-            'rank' => 'nullable|string',
         ];
     }
 }
