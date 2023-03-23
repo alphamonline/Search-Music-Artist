@@ -103,25 +103,26 @@ export default {
 
     userId.value = store.state.user.data.id;
 
-    // const fav = {
-    //   user_id: userId.value.toString(),
-    //   artist_name: model.value.name,
-    //   mbid: model.value.mbid,
-    //   url: model.value.url,
-    //   image: model.value.image[3].text,
-    //   rank: model.value.attr.rank,
-    // }
+    const fav = {
+      user_id: userId.value.toString(),
+      artist_name: artist.value.name,
+      mbid: artist.value.mbid,
+      url: artist.value.url,
+      image: artist.value.image[3]['#text'],
+    }
 
-    // function favoriteArtist(ev) {
-    //   ev.preventDefault();
-    //   store
-    //     .dispatch("favoriteArtist", fav)
-    // }
+    function favoriteArtist(ev) {
+      ev.preventDefault();
+      store
+        .dispatch("favoriteArtist", fav)
+    }
 
     return {
       route,
       artist,
-      userId
+      userId,
+      fav,
+      favoriteArtist
     }
   },
 }

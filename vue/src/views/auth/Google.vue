@@ -30,7 +30,7 @@ export default {
     store.dispatch("googleCallback", route.query)
       .then(() => {
         router.push({
-          name: "Home",
+          name: "Artists",
         });
       })
   }

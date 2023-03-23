@@ -134,7 +134,7 @@ export default {
         .then(() => {
           loading.value = false;
           router.push({
-            name: "Home",
+            name: "Artists",
           });
         })
         .catch((error) => {

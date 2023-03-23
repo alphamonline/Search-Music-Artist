@@ -194,7 +194,6 @@ import {computed} from "vue";
 import {useRouter} from "vue-router";
 
 const navigation = [
-  {name: 'Home', to: {name: "Home"}},
   {name: 'Artists', to: {name: "Artists"}},
   {name: 'Albums', to: {name: "Albums"}},
 ]

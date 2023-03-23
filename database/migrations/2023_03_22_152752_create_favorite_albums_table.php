@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('artist_name')->nullable();
             $table->string('image');
             $table->string('album_url')->nullable();
-            $table->string('artist_url')->nullable();
-            $table->string('rank')->nullable();
             $table->timestamps();
         });
     }
