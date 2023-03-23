@@ -27,7 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', [AuthController::class, 'register'])->name('user.register');
     Route::post('login', [AuthController::class, 'login'])->name('user.login');
 
-    Route::get('{provider}/redirect', [SocialAuthController::class, 'redirect']);
+    Route::get('{provider}/redirect', [SocialAuthController::class, 'redirect'])->name('google.login');
     Route::get('{provider}/callback', [SocialAuthController::class, 'callback']);
 
     //Authenticated Routes
