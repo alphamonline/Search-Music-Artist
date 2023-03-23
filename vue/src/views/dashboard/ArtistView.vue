@@ -108,7 +108,7 @@ export default {
       artist_name: artist.value.name,
       mbid: artist.value.mbid,
       url: artist.value.url,
-      image: artist.value.image[3]['#text'],
+      image: '',
     }
 
     function favoriteArtist(ev) {

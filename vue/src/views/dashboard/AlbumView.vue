@@ -64,7 +64,7 @@ export default {
       user_id: userId.value.toString(),
       album_name: route.params.name,
       artist_name: album.value.artist,
-      image: album.value.image[3]['#text'],
+      image: '',
       album_url: album.value.url,
     }
 
