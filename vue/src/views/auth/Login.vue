@@ -92,7 +92,7 @@
       </button>
       <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
         Not registered?
-        <router-link :to="{ name: 'Register' }" href="#" class="text-blue-700 hover:underline dark:text-blue-500">
+        <router-link :to="{ name: 'Register' }" class="text-blue-700 hover:underline dark:text-blue-500">
           Register for free
         </router-link>
       </div>

@@ -53,8 +53,7 @@
 <script>
 import {useRoute} from "vue-router";
 import store from "../../store/index.js";
-import {ref} from "vue";
-import {computed} from "vue";
+import { ref, onBeforeMount } from "vue";
 import PageViewHeadComponent from "../../components/PageViewHeadComponent.vue";
 
 export default {
@@ -65,68 +64,40 @@ export default {
   setup() {
     const route = useRoute()
     let userId = ref('')
-    let model = ref({
-      name: "",
-      mbid: "",
-      url: "",
-      artist: {
-        name: "",
-        mbid: "",
-        url: ""
-      },
-      image: [
-        {
-          text: "",
-          size: ""
-        },
-        {
-          text: "",
-          size: ""
-        },
-        {
-          text: "",
-          size: ""
-        },
-        {
-          text: "",
-          size: ""
-        }
-      ],
-      attr: {
-        rank: ""
-      }
+    let album = ref({})
+
+    onBeforeMount(() => {
+
     })
 
     if (route.params.name) {
-      model.value = store.state.topAlbums.find(
+      album.value = store.state.topAlbums.find(
         (a) => a.name === route.params.name
       );
     }
 
     userId.value = store.state.user.data.id;
 
-    const fav = {
-      user_id: userId.value.toString(),
-      album_name: model.value.name,
-      artist_name: model.value.artist.name,
-      image: model.value.image[3].text,
-      album_url: model.value.url,
-      artist_url: model.value.artist.url,
-      rank: model.value.attr.rank,
-    }
+    // const fav = {
+    //   user_id: userId.value.toString(),
+    //   album_name: album.value.name,
+    //   artist_name: album.value.artist.name,
+    //   image: album.value.image[3].text,
+    //   album_url: album.value.url,
+    //   artist_url: album.value.artist.url,
+    //   rank: album.value.attr.rank,
+    // }
 
-    function favoriteAlbum(ev) {
-      ev.preventDefault();
-      store
-        .dispatch("favoriteAlbum", fav)
-    }
+    // function favoriteAlbum(ev) {
+    //   ev.preventDefault();
+    //   store
+    //     .dispatch("favoriteAlbum", fav)
+    // }
 
     return {
       userId,
       route,
-      model,
-      fav,
-      favoriteAlbum
+      album
     }
   },
 }

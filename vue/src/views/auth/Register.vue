@@ -94,7 +94,7 @@
       </button>
       <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
         Already have an account?
-        <router-link :to="{ name: 'Login' }" href="#" class="text-blue-700 hover:underline dark:text-blue-500">
+        <router-link :to="{ name: 'Login' }" class="text-blue-700 hover:underline dark:text-blue-500">
           Login to your account
         </router-link>
       </div>

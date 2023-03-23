@@ -189,11 +189,9 @@ const store = createStore({
     topAlbums: [...topAlbumsTemp],
     topArtists: [...topArtistsTemp],
     favoriteAlbums: {
-      loading: false,
       data: []
     },
     favoriteArtists: {
-      loading: false,
       data: []
     },
   },
@@ -252,43 +250,34 @@ const store = createStore({
       return axiosClient.get('/search-album/'+name)
       .then(({data}) => {
         commit('setCurrentAlbum', data.album);
-        commit('setCurrentAlbumLoading', false);
         return data;
       })
         .catch((err) => {
-          commit('setCurrentAlbumLoading', false);
           throw err;
         });
     },
     searchArtist({commit}, name) {
-      commit('setCurrentArtistLoading', true);
       return axiosClient.get('/search-artist/'+name)
         .then(({data}) => {
           commit('setCurrentArtist', data.artist);
-          commit('setCurrentArtistLoading', false);
           return data;
         })
         .catch((err) => {
-          commit('setCurrentArtistLoading', false);
           throw err;
         });
     },
 
     //Get requests: favorites Action
     getFavoriteAlbums({commit}) {
-      commit('setFavAlbumLoading', true);
       return axiosClient.get('/favorite-albums')
         .then(({data}) => {
-          commit('setFavAlbumLoading', false);
           commit('setFavAlbum', data.favAlbum);
           return data;
         })
     },
     getFavoriteArtist({commit}) {
-      commit('setFavArtistLoading', true);
       return axiosClient.get('/favorite-artists')
         .then(({data}) => {
-          commit('setFavArtistLoading', false);
           commit('setFavArtist', data.favArtist);
           return data;
         })
@@ -319,12 +308,6 @@ const store = createStore({
     },
   },
   mutations: {
-    setFavAlbumLoading: (state, loading) => {
-      state.favoriteAlbums.loading = loading;
-    },
-    setFavArtistLoading: (state, loading) => {
-      state.favoriteArtists.loading = loading;
-    },
     setCurrentAlbum: (state, album) => {
       state.album.data = album;
     },
