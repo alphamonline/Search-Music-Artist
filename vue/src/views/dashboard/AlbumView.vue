@@ -97,9 +97,9 @@ export default {
       }
     })
 
-    if (route.params.rank) {
+    if (route.params.name) {
       model.value = store.state.topAlbums.find(
-        (a) => a.attr.rank === route.params.rank
+        (a) => a.name === route.params.name
       );
     }
 

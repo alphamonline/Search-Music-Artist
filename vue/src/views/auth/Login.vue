@@ -158,6 +158,7 @@ export default {
         })
         .catch((err) => {
           loading.value = false;
+          throw err
         });
     }
 
@@ -173,6 +174,7 @@ export default {
         })
         .catch((err) => {
           loading.value = false;
+          throw err
         });
     }
 

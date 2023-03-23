@@ -98,45 +98,6 @@ const topAlbumsTemp = [
   },
 ];
 
-const topTracksTemp = [
-  {
-    name: "Billie Jean",
-    duration: "293",
-    mbid: "f980fc14-e29b-481d-ad3a-5ed9b4ab6340",
-    url: "https://www.last.fm/music/Michael+Jackson/_/Billie+Jean",
-    streamable: {
-      text: "0",
-      fulltrack: "0"
-    },
-    artist: {
-      name: "Michael Jackson",
-      mbid: "f27ec8db-af05-4f36-916e-3d57f91ecf5e",
-      url: "https://www.last.fm/music/Michael+Jackson"
-    },
-    image: [
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "small"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "medium"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "large"
-      },
-      {
-        text: "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
-        size: "extralarge"
-      }
-    ],
-    attr: {
-      rank: "1"
-    }
-  },
-];
-
 const topArtistsTemp = [
   {
     name: "Bee Gees",
@@ -202,59 +163,7 @@ const topArtistsTemp = [
   },
 ];
 
-const favoriteAlbumsTemp = [
-  {
-    id: 2,
-    user_id: 3,
-    album_name: "Flowers",
-    artist_name: "Miley Cyrus",
-    image: "https://lastfm.freetls.fastly.net/i/u/300x300/d0c2c98a6a2e3e3ca2ca647e70fbf5b7.png",
-    album_url: "https://www.last.fm/music/Miley+Cyrus",
-    artist_url: "https://www.last.fm/music/Miley+Cyrus",
-    rank: "3"
-  },
-  {
-    id: 3,
-    user_id: 3,
-    album_name: "The Perfect Red Velvet - The 2nd Album Repackage",
-    artist_name: "Red Velvet",
-    image: "https://lastfm.freetls.fastly.net/i/u/300x300/d31c361f1d65a46ed1d6aeaa99a23b9a.png",
-    album_url: "https://www.last.fm/music/Red+Velvet",
-    artist_url: "https://www.last.fm/music/Red+Velvet",
-    rank: "2"
-  },
-  {
-    id: 4,
-    user_id: 3,
-    album_name: "Dynamite",
-    artist_name: "BTS",
-    image: "https://lastfm.freetls.fastly.net/i/u/300x300/41b15d8a0ad6a81323b598bfb19cede9.png",
-    album_url: "https://www.last.fm/music/BTS",
-    artist_url: "https://www.last.fm/music/BTS",
-    rank: "1"
-  }
-];
 
-const favoriteArtistsTemp = [
-  {
-    id: 1,
-    user_id: 3,
-    artist_name: "Cher",
-    image: "https://lastfm.freetls.fastly.net/i/u/300x300/3b54885952161aaea4ce2965b2db1638.png",
-    mbid: null,
-    url: null,
-    rank: null
-  },
-  {
-    id: 2,
-    user_id: 3,
-    artist_name: "Test",
-    image: "https://lastfm.freetls.fastly.net/i/u/300x300/3b54885952161aaea4ce2965b2db1638.png",
-    mbid: "32ca187e-ee25-4f18-b7d0-3b6713f24635",
-    url: "https://www.last.fm/music/Test",
-    rank: "2"
-  }
-];
 
 const store = createStore({
   plugins: [createPersistedState({
@@ -265,6 +174,12 @@ const store = createStore({
       data: {},
       token: sessionStorage.getItem("TOKEN"),
     },
+    album: {
+      data: {},
+    },
+    artist: {
+      data: {},
+    },
     favAlbum: {
       data: {},
     },
@@ -272,10 +187,15 @@ const store = createStore({
       data: {},
     },
     topAlbums: [...topAlbumsTemp],
-    topTracks: [...topTracksTemp],
     topArtists: [...topArtistsTemp],
-    favoriteAlbums: [...favoriteAlbumsTemp],
-    favoriteArtists: [...favoriteArtistsTemp],
+    favoriteAlbums: {
+      loading: false,
+      data: []
+    },
+    favoriteArtists: {
+      loading: false,
+      data: []
+    },
   },
   getters: {},
   actions: {
@@ -327,6 +247,53 @@ const store = createStore({
         })
     },
 
+    //Get requests Actions
+    searchAlbum({commit}, name) {
+      return axiosClient.get('/search-album/'+name)
+      .then(({data}) => {
+        commit('setCurrentAlbum', data.album);
+        commit('setCurrentAlbumLoading', false);
+        return data;
+      })
+        .catch((err) => {
+          commit('setCurrentAlbumLoading', false);
+          throw err;
+        });
+    },
+    searchArtist({commit}, name) {
+      commit('setCurrentArtistLoading', true);
+      return axiosClient.get('/search-artist/'+name)
+        .then(({data}) => {
+          commit('setCurrentArtist', data.artist);
+          commit('setCurrentArtistLoading', false);
+          return data;
+        })
+        .catch((err) => {
+          commit('setCurrentArtistLoading', false);
+          throw err;
+        });
+    },
+
+    //Get requests: favorites Action
+    getFavoriteAlbums({commit}) {
+      commit('setFavAlbumLoading', true);
+      return axiosClient.get('/favorite-albums')
+        .then(({data}) => {
+          commit('setFavAlbumLoading', false);
+          commit('setFavAlbum', data.favAlbum);
+          return data;
+        })
+    },
+    getFavoriteArtist({commit}) {
+      commit('setFavArtistLoading', true);
+      return axiosClient.get('/favorite-artists')
+        .then(({data}) => {
+          commit('setFavArtistLoading', false);
+          commit('setFavArtist', data.favArtist);
+          return data;
+        })
+    },
+
     //Add to favorites Actions
     favoriteAlbum({commit}, payload) {
       return axiosClient.post('/favorite-albums', payload)
@@ -342,29 +309,33 @@ const store = createStore({
           return data;
         })
     },
+
+    //Destroy to favorites Actions
+    deleteFavAlbum({commit}, payload) {
+      return axiosClient.delete('/favorite-albums', payload)
+    },
+    deleteFavArtist({commit}, payload) {
+      return axiosClient.delete('/favorite-artists', payload)
+    },
   },
   mutations: {
+    setFavAlbumLoading: (state, loading) => {
+      state.favoriteAlbums.loading = loading;
+    },
+    setFavArtistLoading: (state, loading) => {
+      state.favoriteArtists.loading = loading;
+    },
+    setCurrentAlbum: (state, album) => {
+      state.album.data = album;
+    },
+    setCurrentArtist: (state, artist) => {
+      state.artist.data = artist;
+    },
     setFavAlbum: (state, favAlbum) => {
       state.favAlbum.data = favAlbum;
     },
-    updateFavAlbum: (state, favAlbum) => {
-      state.favAlbum.data = favAlbum.map((a) =>{
-        if (a.id === favAlbum.id) {
-          return favAlbum.data
-        }
-        return a;
-      });
-    },
     setFavArtist: (state, favArtist) => {
       state.favArtist.data = favArtist;
-    },
-    updateFavArtist: (state, favArtist) => {
-      state.favArtist.data = favArtist.map((a) =>{
-        if (a.id === favArtist.id) {
-          return favArtist.data
-        }
-        return a;
-      });
     },
     logout: (state) => {
       state.user.token = null;

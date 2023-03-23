@@ -59,6 +59,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    let userId = ref('')
     let model = ref({
       name: "",
       mbid: "",
@@ -91,18 +92,21 @@ export default {
       }
     })
 
-    if (route.params.rank) {
+    if (route.params.name) {
       model.value = store.state.topArtists.find(
-        (a) => a.attr.rank === route.params.rank
+        (a) => a.name === route.params.name
       );
     }
 
+    userId.value = store.state.user.data.id;
+
     const fav = {
-      artist_name: '',
-      mbid: '',
-      url: '',
-      image: '',
-      rank: '',
+      user_id: userId.value.toString(),
+      artist_name: model.value.name,
+      mbid: model.value.mbid,
+      url: model.value.url,
+      image: model.value.image[3].text,
+      rank: model.value.attr.rank,
     }
 
     function favoriteArtist(ev) {

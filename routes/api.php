@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\lastfm\AlbumController;
+use App\Http\Controllers\API\v1\lastfm\ArtistController;
 use App\Http\Controllers\API\v1\lastfm\FavoriteAlbumController;
 use App\Http\Controllers\API\v1\lastfm\FavoriteArtistController;
 use App\Http\Controllers\API\v1\lastfm\HomeController;
@@ -35,8 +37,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('top-albums', [HomeController::class, 'topAlbums']);
         //Last.fm Get top artists request
         Route::get('top-artists', [HomeController::class, 'topArtists']);
-        //Last.fm Get top tracks request
-        Route::get('top-tracks', [HomeController::class, 'topTracks']);
+        //Last.fm Get search album request
+        Route::get('search-album/{name}', [AlbumController::class, 'searchAlbums']);
+        //Last.fm Get search artist request
+        Route::get('search-artist/{name}', [ArtistController::class, 'searchArtists']);
 
         //Auth User Profile favorite albums requests-resource
         Route::apiResource('/favorite-albums', FavoriteAlbumController::class);
