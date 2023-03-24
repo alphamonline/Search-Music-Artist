@@ -188,10 +188,10 @@ const store = createStore({
 
     //Destroy to favorites Actions
     deleteFavAlbum({commit}, payload) {
-      return axiosClient.delete('/favorite-albums', payload)
+      return axiosClient.delete('/favorite-albums/'+payload)
     },
     deleteFavArtist({commit}, payload) {
-      return axiosClient.delete('/favorite-artists', payload)
+      return axiosClient.delete('/favorite-artists/'+payload)
     },
   },
   mutations: {

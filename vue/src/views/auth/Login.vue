@@ -126,7 +126,6 @@ import {useRouter} from "vue-router";
 import store from "../../store/index.js";
 import {ref} from "vue";
 import Alert from "../../components/Alert.vue";
-import {data} from "autoprefixer";
 
 export default {
   components: {
