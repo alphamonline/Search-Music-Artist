@@ -20,6 +20,7 @@ class FavoriteAlbumResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'album_name' => $this->album_name,
+            'artist_name' => $this->album_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

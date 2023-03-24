@@ -18,6 +18,7 @@ class FavoriteAlbumFactory extends Factory
     {
         return [
             'album_name' => fake()->name(),
+            'artist_name' => fake()->firstNameMale(),
             'user_id' => auth()->user()->id,
         ];
     }

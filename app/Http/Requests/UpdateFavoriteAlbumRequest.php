@@ -24,6 +24,7 @@ class UpdateFavoriteAlbumRequest extends FormRequest
         return [
             'user_id' => 'exists:users,id',
             'album_name' => 'required|string|max:255',
+            'artist_name' => 'required|string|max:255',
         ];
     }
 }

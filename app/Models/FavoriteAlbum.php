@@ -14,13 +14,14 @@ class FavoriteAlbum extends Model
     protected $fillable = [
         'user_id',
         'album_name',
+        'artist_name',
         'slug',
     ];
 
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom(['album_name', 'artist_name'])
+            ->generateSlugsFrom(['artist_name'])
             ->saveSlugsTo('slug');
     }
 
