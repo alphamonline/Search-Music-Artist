@@ -30,17 +30,20 @@
       <h1 class="font-dmserif text-3xl font-bold text-white">{{ artist.name }}</h1>
       <button
         class="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 mr-2 mb-2">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"/>
         </svg>
-        {{ artist.stats.playcount}}
+        {{ artist.stats.playcount }}
       </button>
     </template>
 
     <div>
       <div class="whitespace-pre-line">
-        <p>
-          {{ artist.bio['content'] }}
+        <p
+          class="mb-3 font-light text-gray-600 dark:text-gray-500 first-line:uppercase first-line:tracking-widest first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-600 first-letter:mr-3 first-letter:float-left">
+          {{ artist.bio.content }}
         </p>
       </div>
 
@@ -77,7 +80,7 @@
 </template>
 
 <script>
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import store from "../../store/index.js";
 import {ref} from "vue";
 import PageViewHeadComponent from "../../components/PageViewHeadComponent.vue";
@@ -89,6 +92,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const artist = ref({});
     let userId = ref('')
 
@@ -110,10 +114,16 @@ export default {
       ev.preventDefault();
       store
         .dispatch("favoriteArtist", fav)
+        .then(() => {
+          router.push({
+            name: "Favorites",
+          });
+        })
     }
 
     return {
       route,
+      router,
       artist,
       userId,
       fav,

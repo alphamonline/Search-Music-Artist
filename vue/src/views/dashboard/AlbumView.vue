@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {useRoute} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import store from "../../store/index.js";
 import { ref } from "vue";
 import PageViewHeadComponent from "../../components/PageViewHeadComponent.vue";
@@ -55,6 +55,7 @@ export default {
   },
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const album = ref({})
     let userId = ref('')
 
@@ -69,6 +70,7 @@ export default {
     const fav = {
       user_id: userId.value.toString(),
       album_name: route.params.name,
+      artist_name: route.params.artist,
       image: 'https://picsum.photos/150',
     }
 
@@ -76,11 +78,17 @@ export default {
       ev.preventDefault();
       store
         .dispatch("favoriteAlbum", fav)
+        .then(() => {
+          router.push({
+            name: "Favorites",
+          });
+        })
     }
 
     return {
       userId,
       route,
+      router,
       album,
       fav,
       favoriteAlbum
