@@ -56,6 +56,8 @@ App Sample Images
 
 ![Screenshot 2023-03-24 013858](https://user-images.githubusercontent.com/105058020/227390331-7a91cb75-d279-46f8-9055-a7136a454f83.png)
 
+![Screenshot 2023-03-24 124605](https://user-images.githubusercontent.com/105058020/227501339-06e508a5-9b7d-4d8b-8a6d-dd322a047dfc.png)
+
 
 ## About Laravel
 
