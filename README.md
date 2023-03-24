@@ -10,7 +10,7 @@
 
 # Search Music Artist Full Stack Application
 
-Built with these technologies for [YouTube Video](https://youtu.be/WLQDpY7lOLg)
+Built with these technologies
 <table>
     <tr>
         <td>
@@ -46,6 +46,22 @@ You need to have PHP version **8.0** or above. Node.js version **12.0** or above
 3. Copy `vue/.env.example` into `vue/.env` and specify API URL
 4. Start frontend by running `npm run dev`
 5. Open http://localhost:5173
+
+
+App Sample Images
+<table>
+    <tr>
+        <td>
+            ![Screenshot 2023-03-24 013754](https://user-images.githubusercontent.com/105058020/227390105-e137c33c-eac6-4487-97bf-abc57434b8d5.png)
+        </td>
+        <td>
+            ![Screenshot 2023-03-24 013023](https://user-images.githubusercontent.com/105058020/227390267-c12bd12b-f8fc-4496-894b-777e26244d3f.png)
+        </td>
+        <td>
+            ![Screenshot 2023-03-24 013858](https://user-images.githubusercontent.com/105058020/227390331-7a91cb75-d279-46f8-9055-a7136a454f83.png)
+        </td>
+    </tr>
+</table> 
 
 
 ## About Laravel
