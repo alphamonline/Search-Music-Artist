@@ -54,7 +54,7 @@ App Sample Images
 
 ![Screenshot 2023-03-24 013023](https://user-images.githubusercontent.com/105058020/227390267-c12bd12b-f8fc-4496-894b-777e26244d3f.png)
 
-![Screenshot 2023-03-24 013858](https://user-images.githubusercontent.com/105058020/227390331-7a91cb75-d279-46f8-9055-a7136a454f83.png)
+![Screenshot 2023-03-24 125124](https://user-images.githubusercontent.com/105058020/227502283-c7b0048b-4a99-4c3a-a75f-1c19b7dc5b04.png)
 
 ![Screenshot 2023-03-24 124605](https://user-images.githubusercontent.com/105058020/227501339-06e508a5-9b7d-4d8b-8a6d-dd322a047dfc.png)
 
