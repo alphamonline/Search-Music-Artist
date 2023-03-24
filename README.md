@@ -49,19 +49,12 @@ You need to have PHP version **8.0** or above. Node.js version **12.0** or above
 
 
 App Sample Images
-<table>
-    <tr>
-        <td>
-            ![Screenshot 2023-03-24 013754](https://user-images.githubusercontent.com/105058020/227390105-e137c33c-eac6-4487-97bf-abc57434b8d5.png)
-        </td>
-        <td>
-            ![Screenshot 2023-03-24 013023](https://user-images.githubusercontent.com/105058020/227390267-c12bd12b-f8fc-4496-894b-777e26244d3f.png)
-        </td>
-        <td>
-            ![Screenshot 2023-03-24 013858](https://user-images.githubusercontent.com/105058020/227390331-7a91cb75-d279-46f8-9055-a7136a454f83.png)
-        </td>
-    </tr>
-</table> 
+
+![Screenshot 2023-03-24 013754](https://user-images.githubusercontent.com/105058020/227390105-e137c33c-eac6-4487-97bf-abc57434b8d5.png)
+
+![Screenshot 2023-03-24 013023](https://user-images.githubusercontent.com/105058020/227390267-c12bd12b-f8fc-4496-894b-777e26244d3f.png)
+
+![Screenshot 2023-03-24 013858](https://user-images.githubusercontent.com/105058020/227390331-7a91cb75-d279-46f8-9055-a7136a454f83.png)
 
 
 ## About Laravel
