@@ -12,32 +12,16 @@ class ArtistController extends Controller
     /**
      * Get Artists by name.
      */
-    public function searchArtists($name)
+    public function searchArtists(ArtistService $artistService, $name)
     {
-        try {
-            return Http::get(self::LASTFM_API_ROOT.'?method=artist.search&artist='.$name.'&api_key='.self::LASTFM_API_KEY.'&format=json');
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong trying to show this user record!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        return $artistService->getArtists($name);
     }
 
     /**
      * Get Current Artist.
      */
-    public function currentArtist($name)
+    public function currentArtist(ArtistService $artistService, $name)
     {
-        try {
-            return Http::get(self::LASTFM_API_ROOT.'?method=artist.getinfo&artist='.$name.'&api_key='.self::LASTFM_API_KEY.'&format=json');
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong trying to show this user record!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        return $artistService->getCurrentArtist($name);
     }
 }
