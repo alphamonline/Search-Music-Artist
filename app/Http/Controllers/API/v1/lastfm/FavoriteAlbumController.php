@@ -5,13 +5,16 @@ namespace App\Http\Controllers\API\v1\lastfm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFavoriteAlbumRequest;
 use App\Http\Requests\UpdateFavoriteAlbumRequest;
-use App\Http\Resources\FavoriteAlbumResource;
 use App\Models\FavoriteAlbum;
 use App\Services\FavoriteAlbumService;
 use Illuminate\Http\Request;
 
 class FavoriteAlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(FavoriteAlbum::class, 'favorite-albums');
+    }
     /**
      * Display a listing of the resource.
      */
