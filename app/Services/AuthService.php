@@ -10,9 +10,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class AuthService
 {
-    /**
-     * Create new user.
-     */
     public function createUser(Request $request): User
     {
         return User::create([
@@ -22,9 +19,6 @@ class AuthService
         ]);
     }
 
-    /**
-     * Get user.
-     */
     public function loginUser(Request $request): ?Authenticatable
     {
         $credentials = $request->validated();

@@ -33,6 +33,9 @@ class AuthController extends Controller
         return $this->issueUserToken($user);
     }
 
+    /**
+     * Get a user in storage, logout and destroy tokens.
+     */
     public function logout()
     {
         /** @var User $user */
@@ -43,6 +46,9 @@ class AuthController extends Controller
         return response()->json('User logged out!', 200);
     }
 
+    /**
+     * Issue user tokens.
+     */
     protected function issueUserToken($user)
     {
         $token = $user->createToken('Login token')->plainTextToken;

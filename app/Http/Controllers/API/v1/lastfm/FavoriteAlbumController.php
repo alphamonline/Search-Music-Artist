@@ -17,7 +17,6 @@ class FavoriteAlbumController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-
         // Get favorite albums based on the current user
         return FavoriteAlbumResource::collection(FavoriteAlbum::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
     }
