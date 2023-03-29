@@ -7,6 +7,7 @@ use App\Http\Requests\StoreFavoriteAlbumRequest;
 use App\Http\Requests\UpdateFavoriteAlbumRequest;
 use App\Http\Resources\FavoriteAlbumResource;
 use App\Models\FavoriteAlbum;
+use App\Services\FavoriteAlbumService;
 use Illuminate\Http\Request;
 
 class FavoriteAlbumController extends Controller
@@ -14,63 +15,40 @@ class FavoriteAlbumController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, FavoriteAlbumService $favoriteAlbumService)
     {
-        $user = $request->user();
-
-        // Get favorite albums based on the current user
-        return FavoriteAlbumResource::collection(FavoriteAlbum::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
+        return $favoriteAlbumService->getFavoriteAlbums($request);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFavoriteAlbumRequest $request)
+    public function store(StoreFavoriteAlbumRequest $request, FavoriteAlbumService $favoriteAlbumService)
     {
-        $favoriteAlbum = FavoriteAlbum::create($request->validated());
-
-        return FavoriteAlbumResource::make($favoriteAlbum);
+        return $favoriteAlbumService->createFavoriteAlbum($request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(FavoriteAlbum $favoriteAlbum, Request $request)
+    public function show(FavoriteAlbum $favoriteAlbum, Request $request, FavoriteAlbumService $favoriteAlbumService)
     {
-        $user = $request->user();
-
-        // Check if current user is owner
-        if ($user->id !== $favoriteAlbum->user_id) {
-            return abort(403, 'Unauthorized action.');
-        }
-
-        return FavoriteAlbumResource::make($favoriteAlbum);
+        return $favoriteAlbumService->getCurrentFavoriteAlbum($favoriteAlbum, $request);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFavoriteAlbumRequest $request, FavoriteAlbum $favoriteAlbum)
+    public function update(UpdateFavoriteAlbumRequest $request, FavoriteAlbum $favoriteAlbum, FavoriteAlbumService $favoriteAlbumService)
     {
-        $favoriteAlbum->update($request->validated());
-
-        return FavoriteAlbumResource::make($favoriteAlbum);
+        return $favoriteAlbumService->updateFavoriteAlbum($request, $favoriteAlbum);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FavoriteAlbum $favoriteAlbum, Request $request)
+    public function destroy(FavoriteAlbum $favoriteAlbum, Request $request, FavoriteAlbumService $favoriteAlbumService)
     {
-        $user = $request->user();
-
-        // Check if current user is owner
-        if ($user->id !== $favoriteAlbum->user_id) {
-            return abort(403, 'Unauthorized action.');
-        }
-
-        $favoriteAlbum->delete();
-
-        return response('', 204);
+        return $favoriteAlbumService->deleteFavoriteAlbum($favoriteAlbum, $request);
     }
 }

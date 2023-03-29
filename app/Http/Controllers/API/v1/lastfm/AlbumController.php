@@ -3,43 +3,24 @@
 namespace App\Http\Controllers\API\v1\lastfm;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Services\AlbumService;
 
 class AlbumController extends Controller
 {
-
-    public function searchAlbums(Request $request, $name)
+    /**
+     * Get Albums by name.
+     */
+    public function searchAlbums(AlbumService $albumService, $name)
     {
-        try {
-            $artist = $name;
-
-            return $response = Http::get(self::LASTFM_API_ROOT.'?method=album.search&album='.$artist.'&api_key='.self::LASTFM_API_KEY.'&format=json');
-
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong trying to show this user record!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        return $albumService->getAlbums($name);
     }
 
-    public function currentAlbum(Request $request, $artist, $name)
+    /**
+     * Get Current Album.
+     */
+    public function currentAlbum(AlbumService $albumService, $artist, $name)
     {
-        try {
-            $artist = $artist;
-            $album = $name;
-
-            return $response = Http::get(self::LASTFM_API_ROOT.'?method=album.getinfo&api_key='.self::LASTFM_API_KEY.'&artist='.$artist.'&album='.$album.'&format=json');
-
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Something went wrong trying to show this user record!',
-                'error' => $e->getMessage(),
-            ], 400);
-        }
+        return $albumService->getCurrentAlbum($artist, $name);
     }
 
 }
