@@ -67,6 +67,25 @@ class FavoriteArtistTest extends TestCase
         $this->get('favorite-artists/'.$favArtist->id);
     }
 
+    public function test_a_user_can_update_current_favorite_artist()
+    {
+        $user = User::factory()->create();
+        $response = $this->postJson(route('user.login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ])
+            ->assertOk();
+
+        $this->assertArrayHasKey('token', $response->json());
+
+        $favArtist = FavoriteArtist::factory()->create();
+
+        return $this->putJson(('favorite-albums/'.$favArtist->id), [
+            'artist_name' => 'BTS',
+            'user_id' => $user->id,
+        ]);
+    }
+
     public function test_a_user_can_delete_current_favorite_artist()
     {
         $user = User::factory()->create();

@@ -45,8 +45,6 @@ class FavoriteAlbumTest extends TestCase
         return $this->postJson(route('favorite-albums.store'), [
             'album_name' => fake()->name(),
             'artist_name' => fake()->firstNameMale(),
-            'album_url' => fake()->url(),
-            'image' => fake()->imageUrl(),
             'user_id' => $user->id,
         ])
             ->assertStatus(201);
@@ -66,6 +64,26 @@ class FavoriteAlbumTest extends TestCase
         $favAlbum = FavoriteAlbum::factory()->create();
 
         $this->get('favorite-albums/'.$favAlbum->id);
+    }
+
+    public function test_a_user_can_update_current_favorite_album()
+    {
+        $user = User::factory()->create();
+        $response = $this->postJson(route('user.login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ])
+            ->assertOk();
+
+        $this->assertArrayHasKey('token', $response->json());
+
+        $favAlbum = FavoriteAlbum::factory()->create();
+
+        return $this->putJson(('favorite-albums/'.$favAlbum->id), [
+            'album_name' => 'Flower Of Devotion',
+            'artist_name' => 'Dehd',
+            'user_id' => $user->id,
+        ]);
     }
 
     public function test_a_user_can_delete_current_favorite_album()
