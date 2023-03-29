@@ -7,6 +7,7 @@ use App\Http\Requests\StoreFavoriteArtistRequest;
 use App\Http\Requests\UpdateFavoriteArtistRequest;
 use App\Http\Resources\FavoriteArtistResource;
 use App\Models\FavoriteArtist;
+use App\Services\FavoriteArtistService;
 use Illuminate\Http\Request;
 
 class FavoriteArtistController extends Controller
@@ -14,64 +15,40 @@ class FavoriteArtistController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, FavoriteArtistService $favoriteArtistService)
     {
-        $user = $request->user();
-
-        // Get favorite albums based on the current user
-        return FavoriteArtistResource::collection(FavoriteArtist::where('user_id', $user->id)->orderBy('created_at', 'DESC')->paginate(10));
+        return $favoriteArtistService->getFavoriteArtist($request);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFavoriteArtistRequest $request)
+    public function store(StoreFavoriteArtistRequest $request, FavoriteArtistService $favoriteArtistService)
     {
-        $favoriteArtist = FavoriteArtist::create($request->validated());
-
-        return FavoriteArtistResource::make($favoriteArtist);
+        return $favoriteArtistService->createFavoriteArtist($request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(FavoriteArtist $favoriteArtist, Request $request)
+    public function show(FavoriteArtist $favoriteArtist, Request $request, FavoriteArtistService $favoriteArtistService)
     {
-        $user = $request->user();
-
-        // Check if current user is owner
-        if ($user->id !== $favoriteArtist->user_id) {
-            return abort(403, 'Unauthorized action.');
-        }
-
-        return FavoriteArtistResource::make($favoriteArtist);
+        return $favoriteArtistService->getCurrentFavoritArtist($favoriteArtist, $request);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFavoriteArtistRequest $request, FavoriteArtist $favoriteArtist)
+    public function update(UpdateFavoriteArtistRequest $request, FavoriteArtist $favoriteArtist, FavoriteArtistService $favoriteArtistService)
     {
-        $favoriteArtist->update($request->validated());
-
-        return FavoriteArtistResource::make($favoriteArtist);
+        return $favoriteArtistService->updateFavoriteArtist($request, $favoriteArtist);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FavoriteArtist $favoriteArtist, Request $request)
+    public function destroy(FavoriteArtist $favoriteArtist, Request $request, FavoriteArtistService $favoriteArtistService)
     {
-
-        $user = $request->user();
-
-        // Check if current user is owner
-        if ($user->id !== $favoriteArtist->user_id) {
-            return abort(403, 'Unauthorized action.');
-        }
-
-        $favoriteArtist->delete();
-
-        return response('', 204);
+        return $favoriteArtistService->deleteFavoriteArtist($favoriteArtist, $request);
     }
 }
