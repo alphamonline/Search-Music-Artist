@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,58 +14,23 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    /**
+     * Store a newly created user in storage.
+     */
+    public function register(StoreUserRequest $request, AuthService $authService)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)
-            ]
-        ]);
+        $user = $authService->createUser($request);
 
-        /** @var \App\Models\User $user */
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password'))
-        ]);
-        $token = $user->createToken('Login token')->plainTextToken;
-
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ]);
+        return $this->issueUserToken($user);
     }
-
-    public function login(Request $request)
+    /**
+     * Get a created user in storage and login.
+     */
+    public function login(LoginUserRequest $request, AuthService $authService)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email|string|exists:users,email',
-            'password' => [
-                'required',
-            ],
-            'remember' => 'boolean'
-        ]);
-        $remember = $credentials['remember'] ?? false;
-        unset($credentials['remember']);
+        $user = $authService->loginUser($request);
 
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
-            $token = $user->createToken('Login token')->plainTextToken;
-
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ]);
-        }
-
-        return response([
-            'error' => 'The Provided credentials are not correct'
-        ], 422);
-
+        return $this->issueUserToken($user);
     }
 
     public function logout()
@@ -73,5 +41,15 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         return response()->json('User logged out!', 200);
+    }
+
+    protected function issueUserToken($user)
+    {
+        $token = $user->createToken('Login token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 }
