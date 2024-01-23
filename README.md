@@ -38,7 +38,11 @@ You need to have PHP version **8.0** or above. Node.js version **12.0** or above
 3. Run `composer install`
 4. Create database
 5. Copy `.env.example` into `.env` file and adjust parameters
-6. Run `php artisan serve` to start the project at http://localhost:8000
+6. In the `.env` file don't forget to include the following keys, they are required:
+    1. GOOGLE_CLIENT_ID
+    2. GOOGLE_CLIENT_SECRET
+    3. LASTFM_API_KEY
+7. Run `php artisan serve` to start the project at http://localhost:8000
 
 #### Frontend
 1. Navigate to `vue` folder using terminal
