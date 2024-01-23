@@ -22,8 +22,9 @@ class SocialAuthService
         $user = Socialite::driver($provider)->stateless()->user();
 
         if (!$user->token) {
-            //return json
-            dd('failed');
+            return response()->json([
+                'message' => 'Failed to authenticate!',
+            ], 401);
         }
 
         $appUser = User::whereEmail($user->email)->first();
